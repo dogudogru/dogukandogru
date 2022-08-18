@@ -80,7 +80,7 @@ def projects():
     col1, col2 = st.columns(2)
 
     with col1:
-        whatsapp = Image.open('img\Whatsapp.png')
+        whatsapp = Image.open("img/Whatsapp.png")
         st.image(whatsapp, width=550)
 
     with col2:
@@ -105,7 +105,7 @@ def projects():
         """)        
 
     with col2:
-        turkeyreport = Image.open('img\TurkeyReport.png')
+        turkeyreport = Image.open("img/TurkeyReport.png")
         st.image(turkeyreport, width=550)
 
     st.markdown("---")
@@ -113,7 +113,7 @@ def projects():
     col1, col2 = st.columns(2)
 
     with col1:
-        zelzele = Image.open('img\Zelzele.png')
+        zelzele = Image.open("img/Zelzele.png")
         st.image(zelzele, width=550)
 
     with col2:
@@ -138,7 +138,7 @@ def projects():
         """)        
 
     with col2:
-        recommendation = Image.open('img\customer.png')
+        recommendation = Image.open("img/customer.png")
         st.image(recommendation, width=550)
 
 def navigation():

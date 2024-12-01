@@ -2,34 +2,50 @@ import streamlit as st
 import plotly.express as px
 from PIL import Image
 from utils.utils import social
+import pandas as pd
 st.set_page_config(layout="wide",page_title='Dogukan Dogru', page_icon=':green_book')
 
 
 def professional_experience():
+
+    #Deloitte Switzerland
+
+    st.title("Data Scientist")
+    st.header("Deloitte, Switzerland")
+    st.subheader("April 2023 - Current")
+
+    st.markdown("""
+    - Developed and deployed an XGBoost-based payment prediction model, enabling proactive receivables management and automated early warning signals
+    - Built scalable ML pipelines using Python and SQL, delivering MVP solutions within 3-4 day sprints
+    - Stakeholder decisions are now driven by my custom Power BI solutions, integrating Azure PySpark for real-time analytics
+    - Architected scalable data infrastructure that reduced model deployment time by 40% while maintaining robust data quality standards
+    """)
+
+    st.markdown("---")
     
     #Allianz Turkey
 
-    st.title("Data Analyst")
+    st.title("Data Scientist")
     st.header("Allianz, Istanbul")
-    st.subheader("June 2021 - Current")
+    st.subheader("June 2021 - April 2023")
 
     st.markdown("""
-    - Developing and working on the integration of end-to-end software prototypes, including data engineering, machine learning and artificial intelligence algorithms, or custom algorithm development
-    - Measuring and tracking impact of the developed solutions through business KPIs. Presenting result of analyses to business owners and share knowledge with team members
-    - Investigate new data technologies and contribute to the continual development of the Big Data architecture
+    - Automated Excel and SAS reports using Python and Apache Airflow, implementing enterprise-wide automation infrastructure
+    - Developed Superset dashboards for C-level KPI tracking and designed predictive ML models for litigation outcomes
+    - Created and deployed ML models achieving 10% litigation reduction and 5% increase in case win rates
     """)
 
     st.markdown("---")
 
     #Istanbul Economics Research and Consultancy    
-    st.title("Business Analyst")
+    st.title("Data Analyst")
     st.header("Istanbul Economics Research, Istanbul")
     st.subheader("June 2020 - June 2021")
 
     st.markdown("""
-    - Devising and evaluating methods for collecting data and statistical analysis of the collected data
-    - Organizing this information into statistical tables and reports
-    - Conducting and tracking Facebook, LinkedIn, Twitter, Google Ads campaigns
+    - Managed survey projects for major clients including Central Bank of Turkey and Harvard Business School
+    - Designed and executed social media campaigns, analyzing public perception through survey data
+    - Automated survey analysis processes using Python and R, while developing company's web presence
     """)
 
     st.markdown("---")
@@ -46,35 +62,131 @@ def professional_experience():
     """)
 
 def skills():
-
-    st.title('Skills')
+    st.title('Skills & Expertise')
+    
+    skills_data = pd.DataFrame([
+        # ML/AI
+        {"name": "Skills", "parent": "", "proficiency": "", "category": "root"},
+        {"name": "ML/AI", "parent": "Skills", "proficiency": "", "category": "ml"},
+        {"name": "PyTorch", "parent": "ML/AI", "proficiency": "Advanced", "category": "ml"},
+        {"name": "XGBoost", "parent": "ML/AI", "proficiency": "Expert", "category": "ml"},
+        {"name": "LSTM", "parent": "ML/AI", "proficiency": "Advanced", "category": "ml"},
+        {"name": "Classification Models", "parent": "ML/AI", "proficiency": "Expert", "category": "ml"},
+        
+        # Data Processing
+        {"name": "Data Processing", "parent": "Skills", "proficiency": "", "category": "data"},
+        {"name": "Python", "parent": "Data Processing", "proficiency": "Expert", "category": "data"},
+        {"name": "R", "parent": "Data Processing", "proficiency": "Advanced", "category": "data"},
+        {"name": "SQL", "parent": "Data Processing", "proficiency": "Expert", "category": "data"},
+        {"name": "PySpark", "parent": "Data Processing", "proficiency": "Expert", "category": "data"},
+        
+        # Visualization
+        {"name": "Visualization", "parent": "Skills", "proficiency": "", "category": "viz"},
+        {"name": "Power BI", "parent": "Visualization", "proficiency": "Expert", "category": "viz"},
+        {"name": "Superset", "parent": "Visualization", "proficiency": "Expert", "category": "viz"},
+        {"name": "Tableau", "parent": "Visualization", "proficiency": "Advanced", "category": "viz"},
+        
+        # Cloud/Infrastructure
+        {"name": "Cloud/Infrastructure", "parent": "Skills", "proficiency": "", "category": "cloud"},
+        {"name": "Airflow", "parent": "Cloud/Infrastructure", "proficiency": "Expert", "category": "cloud"},
+        {"name": "Azure", "parent": "Cloud/Infrastructure", "proficiency": "Advanced", "category": "cloud"},
+        
+        # Academic Knowledge
+        {"name": "Academic Knowledge", "parent": "Skills", "proficiency": "", "category": "academic"},
+        {"name": "Correspondence Analyses", "parent": "Academic Knowledge", "proficiency": "Advanced", "category": "academic"},
+        {"name": "Fractal Market Theory", "parent": "Academic Knowledge", "proficiency": "Advanced", "category": "academic"},
+        {"name": "Advanced Econometrics", "parent": "Academic Knowledge", "proficiency": "Expert", "category": "academic"},
+        
+        # Other
+        {"name": "Other", "parent": "Skills", "proficiency": "", "category": "other"},
+        {"name": "Wordpress", "parent": "Other", "proficiency": "Intermediate", "category": "other"},
+        {"name": "Wix", "parent": "Other", "proficiency": "Intermediate", "category": "other"},
+        {"name": "Figma", "parent": "Other", "proficiency": "Intermediate", "category": "other"},
+        {"name": "Canva", "parent": "Other", "proficiency": "Advanced", "category": "other"},
+        {"name": "Photoshop", "parent": "Other", "proficiency": "Intermediate", "category": "other"},
+    ])
+    
+    unique_categories = sorted(list(set(skills_data['category'].values) - {'root'}))
+    
+    st.sidebar.header("Filter Skills")
+    selected_categories = st.sidebar.multiselect(
+        "Select Skill Categories",
+        options=unique_categories,
+        default=unique_categories
+    )
+    
+    if selected_categories:
+        filtered_data = skills_data[
+            (skills_data['category'].isin(selected_categories)) | 
+            (skills_data['category'] == 'root') |
+            (skills_data['name'] == 'Skills')
+        ]
+    else:
+        filtered_data = skills_data
+    
+    filtered_data['hover_text'] = filtered_data.apply(
+        lambda x: f"Skill: {x['name']}<br>Proficiency: {x['proficiency']}" if x['proficiency'] else x['name'],
+        axis=1
+    )
+    
+    color_map = {
+        'ml': '#FF6B6B',        # Red shade
+        'data': '#4ECDC4',      # Teal shade
+        'viz': '#45B7D1',       # Blue shade
+        'cloud': '#96CEB4',     # Green shade
+        'academic': '#FFEEAD',  # Yellow shade
+        'other': '#D4A5A5',     # Pink shade
+        'root': '#FFFFFF'       # White for root
+    }
+    
+    filtered_data['colors'] = filtered_data['category'].map(color_map)
+    
     fig = px.treemap(
-    names = ["Skills", 
-            "LANGUAGES","Python", "R", "SQL", 
-            "TOOLS", "Streamlit", "Airflow", "Superset", "Tableau", "SAS", "IBM SPSS",
-            "ACADEMIC KNOWLEDGE", "Correspondence Analyses", "Fractal Market Theory", "Advanced Econometrics",
-            "OTHER", "Wordpress", "Wix", "Figma", "Canva", "Photoshop"],
-
-    parents = ["", 
-            "Skills", "LANGUAGES", "LANGUAGES", "LANGUAGES", 
-            "Skills", "TOOLS", "TOOLS", "TOOLS", "TOOLS", "TOOLS", "TOOLS",
-            "Skills", "ACADEMIC KNOWLEDGE", "ACADEMIC KNOWLEDGE", "ACADEMIC KNOWLEDGE",
-            "Skills", "OTHER", "OTHER", "OTHER", "OTHER", "OTHER"],
-    
-    
+        filtered_data,
+        names='name',
+        parents='parent',
+        custom_data=['proficiency'],
+        color='category',
+        color_discrete_map=color_map,
+        hover_data=['hover_text']
     )
     
-    fig.update_layout(treemapcolorway= ["#7D7C99","#FFFFFF"],
-                    margin = dict(t=0, l=0, r=0, b=0),
-                    font=dict(
-                    family="monospace",
-                    size=20,
-                    color="#FFFFFF"
+    fig.update_traces(
+        hovertemplate="<b>%{label}</b><br>%{customdata[0]}<extra></extra>",
+        textfont=dict(size=16)
     )
-)
+    
+    fig.update_layout(
+        margin=dict(t=0, l=0, r=0, b=0),
+        font=dict(
+            family="monospace",
+            size=16,
+            color="#FFFFFF"
+        ),
+        showlegend=False
+    )
+    
     st.plotly_chart(fig, use_container_width=True)
- 
-    st.caption("Did you know that the chart above is interactive?")    
+    
+    st.markdown("### Skill Categories")
+    cols = st.columns(3)
+    for i, (category, color) in enumerate(color_map.items()):
+        if category != 'root':
+            cols[i % 3].markdown(
+                f'<div style="background-color: {color}; padding: 10px; border-radius: 5px; margin: 5px; color: black;">'
+                f'{category.upper()}</div>',
+                unsafe_allow_html=True
+            )
+    
+    st.markdown("### Proficiency Levels")
+    st.markdown("""
+    - **Expert**: Deep knowledge and extensive practical experience
+    - **Advanced**: Strong understanding with practical implementation experience
+    - **Intermediate**: Working knowledge with some practical experience
+    """)
+    
+    st.caption("💡 Tip: The treemap is interactive! Click to zoom in, click the center to zoom out, and hover for details.")
+    st.caption("🔍 Use the sidebar to filter specific skill categories.")
 
 def projects():
     col1, col2 = st.columns(2)
